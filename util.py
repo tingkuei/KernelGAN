@@ -50,6 +50,18 @@ def read_image(path):
     return im
 
 
+def read_YUV(path, w, h):
+    """Loads an YUV Images"""
+    YUV = np.fromfile(path,dtype='uint16') # 10-bit for int-16
+    px = w * h
+    Y = YUV[0:px]
+    Y = np.reshape(Y, (h,w, 1))
+    Y = np.repeat(Y, 3, 2) # Assume 3-Channel Image
+    Y = np.array(Y, dtype=np.uint16)
+
+    return Y
+
+
 def rgb2gray(im):
     """Convert and RGB image to gray-scale"""
     return np.dot(im, [0.299, 0.587, 0.114]) if len(im.shape) == 3 else im

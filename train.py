@@ -29,7 +29,15 @@ def main():
     prog.add_argument('--SR', action='store_true', help='when activated - ZSSR is not performed')
     prog.add_argument('--real', action='store_true', help='ZSSRs configuration is for real images')
     prog.add_argument('--noise_scale', type=float, default=1., help='ZSSR uses this to partially de-noise images')
+    prog.add_argument('--YUV', action='store_true', help='activated when images are given in YUV ')
+    prog.add_argument('--W', type=int, default=None, help='Width of YUV images')
+    prog.add_argument('--H', type=int, default=None, help='Heigth of YUV images')
     args = prog.parse_args()
+    assert not(args.YUV and (args.W == None and args.H == None)), "Should Specify W and H when using YUV Images" 
+    if args.YUV:
+        print("Default YUV format is 10-bit 420 NV12. Change \"read_yuv\" in util.y for other YUV format.")
+
+    
     # Run the KernelGAN sequentially on all images in the input directory
     for filename in os.listdir(os.path.abspath(args.input_dir)):
         conf = Config().parse(create_params(filename, args))
@@ -47,6 +55,11 @@ def create_params(filename, args):
         params.append('--do_ZSSR')
     if args.real:
         params.append('--real_image')
+    if args.YUV:
+        params.append('--YUV')
+        params += ['--W', str(args.W)]
+        params += ['--H', str(args.H)]
+
     return params
 
 

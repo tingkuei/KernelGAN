@@ -1,7 +1,7 @@
 import numpy as np
 from torch.utils.data import Dataset
 from imresize import imresize
-from util import read_image, create_gradient_map, im2tensor, create_probability_map, nn_interpolation
+from util import read_image, read_YUV, create_gradient_map, im2tensor, create_probability_map, nn_interpolation
 
 
 class DataGenerator(Dataset):
@@ -17,7 +17,10 @@ class DataGenerator(Dataset):
         self.d_output_shape = self.d_input_shape - gan.D.forward_shave
 
         # Read input image
-        self.input_image = read_image(conf.input_image_path) / 255.
+        if conf.YUV:
+            self.input_image = read_YUV(conf.input_image_path, conf.W, conf.H) / 1023.
+        else:
+            self.input_image = read_image(conf.input_image_path) / 255.
         self.shave_edges(scale_factor=conf.scale_factor, real_image=conf.real_image)
 
         self.in_rows, self.in_cols = self.input_image.shape[0:2]

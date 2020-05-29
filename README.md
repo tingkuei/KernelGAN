@@ -29,6 +29,12 @@ This will produce kernel estimations in the results folder
 
 ```--output-dir``` : Output folder for the images (default is results)
 
+```--YUV``` : Input Image Format is YUV (default 10-bit 420 NV12)
+
+```--W``` : Specify Width (for YUV format)
+
+```--H``` : Specify Height (for YUV format)
+
 
 ### Data:
 Download the DIV2KRK dataset: [dropbox](http://www.wisdom.weizmann.ac.il/~vision/kernelgan/DIV2KRK_public.zip)

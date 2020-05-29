@@ -44,6 +44,12 @@ class Config:
         self.parser.add_argument('--do_ZSSR', action='store_true', help='when activated - ZSSR is not performed')
         self.parser.add_argument('--noise_scale', type=float, default=1., help='ZSSR uses this to partially de-noise images')
         self.parser.add_argument('--real_image', action='store_true', help='ZSSRs configuration is for real images')
+        
+        # Data format
+        self.parser.add_argument('--YUV', action='store_true', help='activated when images are given in YUV ')
+        self.parser.add_argument('--W', type=int, default=None, help='Width of YUV images')
+        self.parser.add_argument('--H', type=int, default=None, help='Heigth of YUV images')
+
 
     def parse(self, args=None):
         """Parse the configuration"""
